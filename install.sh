@@ -214,17 +214,14 @@ fi
 new_private_key=$(wg genkey)
 
 # Проверка наличия файла и чтение его содержимого в переменную
-config_file="./wgdash/config/wg0.conf"
+config_file="./wgdash/conf/wg0.conf"
 if [[ -f "$config_file" ]]; then
   config_content=$(cat "$config_file")
-
   # Замена значения переменной PRIVATE_KEY в содержимом файла
   new_config_content=${config_content//\$PRIVATE_KEY/$new_private_key}
-
   # Запись измененного содержимого обратно в файл
   echo "$new_config_content" > "$config_file"
   echo "Значение PRIVATE_KEY заменено в файле $config_file"
-
 fi
 
 # Выводим связку логина и пароля в консоль
