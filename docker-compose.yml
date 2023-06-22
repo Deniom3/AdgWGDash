@@ -1,0 +1,61 @@
+version: "3"
+services:
+  unbound:
+    image: mvance/unbound:latest
+    container_name: unbound
+    restart: unless-stopped
+    hostname: unbound
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./unbound:/opt/unbound/etc/unbound/
+    networks:
+      private_network:
+        ipv4_address: 10.2.0.200
+
+  wg_dashboard:
+    image: noxcis/wg-dashboard:latest
+    depends_on: [unbound, adguardhome]
+    container_name: wg_dashboard
+    restart: unless-stopped 
+    cap_add: 
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - TZ=Europe/Moscow
+      - SERVER_IP=MYHOST_IP
+      - CONFIG_CT=1      
+    volumes:
+      - ./wgdash/config:/etc/wireguard
+    ports:
+      - 10086:10086
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    dns:
+      - 10.2.0.100
+    networks:
+      private_network:
+        ipv4_address: 10.2.0.3
+
+  adguardhome:
+    image: adguard/adguardhome:latest
+    depends_on: [unbound] 
+    container_name: adguardhome
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./adguardhome/work:/opt/adguardhome/work
+      - ./adguardhome/conf:/opt/adguardhome/conf
+    networks:
+      private_network:
+        ipv4_address: 10.2.0.100
+
+networks:
+  private_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.2.0.0/24
