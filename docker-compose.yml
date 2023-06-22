@@ -26,7 +26,7 @@ services:
       - SERVER_IP=MYHOST_IP
       - CONFIG_CT=1      
     volumes:
-      - ./wgdash/conf:/etc/wireguard
+      - ./wgdash:/etc/wireguard
     ports:
       - 10086:10086
       - 51820:51820/udp
