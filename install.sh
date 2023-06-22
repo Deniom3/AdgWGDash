@@ -139,8 +139,6 @@ sed -i -E  "s/- WG_HOST=.*/- WG_HOST=$MYHOST_IP/g" docker-compose.yml
 # Даем пользователю информацию по установке
 # Читаем текущие значения из файла docker-compose.yml
 CURRENT_WG_HOST=$(grep WG_HOST docker-compose.yml | cut -d= -f2)
-#CURRENT_WG_DEFAULT_ADDRESS=$(grep WG_DEFAULT_ADDRESS docker-compose.yml | cut -d= -f2)
-#CURRENT_WG_DEFAULT_DNS=$(grep WG_DEFAULT_DNS docker-compose.yml | cut -d= -f2)
 
 # Выводим текущие значения
 echo ""
@@ -211,6 +209,25 @@ else
   echo -e "${RED}Не удалось записать связку логина и пароля в файл adguardhome/conf/AdGuardHome.yaml.${NC}" >&2
   exit 1
 fi
+
+# Генерация нового значения для переменной PRIVATE_KEY
+new_private_key=$(wg genkey)
+
+# Проверка наличия файла и чтение его содержимого в переменную
+config_file="./wgdash/config/wg0.conf"
+if [[ -f "$config_file" ]]; then
+  config_content=$(cat "$config_file")
+
+  # Замена значения переменной PRIVATE_KEY в содержимом файла
+  new_config_content=${config_content//\$PRIVATE_KEY/$new_private_key}
+
+  # Запись измененного содержимого обратно в файл
+  echo "$new_config_content" > "$config_file"
+  echo "Значение PRIVATE_KEY заменено в файле $config_file"
+
+fi
+
+
 
 # Выводим связку логина и пароля в консоль
 echo "Ниже представлены логин и пароль для входа в AdGuardHome"
