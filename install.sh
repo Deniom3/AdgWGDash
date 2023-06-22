@@ -136,16 +136,12 @@ MYHOST_IP=$(hostname -I | cut -d' ' -f1)
 # Записываем IP-адрес в файл docker-compose.yml с меткой MYHOSTIP
 sed -i -E  "s/- SERVER_IP=.*/- SERVER_IP=$MYHOST_IP/g" docker-compose.yml
 
-# Даем пользователю информацию по установке
-# Читаем текущие значения из файла docker-compose.yml
-CURRENT_WG_HOST=$(grep WG_HOST docker-compose.yml | cut -d= -f2)
-
 # Выводим текущие значения
 echo ""
-echo -e "${BLUE}Текущие значения:${NC}"
-echo ""
-echo -e "IP адрес сервера: ${BLUE}$CURRENT_WG_HOST${NC}"
-echo -e "Адрес входа в веб-интерфейс WireGuard после установки: ${YELLOW}http://$CURRENT_WG_HOST:10086${NC}"
+echo -e "IP адрес сервера: ${BLUE}$MYHOST_IP${NC}"
+echo -e "Адрес входа в веб-интерфейс WireGuard после установки: ${YELLOW}http://$MYHOST_IP:10086${NC}"
+echo -e "Логин от веб-интерфейса WireGuard: admin"
+echo -e "Пароль от веб-интерфейса WireGuard: admin"
 echo ""
 
 # Устанавливаем apache2-utils, если она не установлена
@@ -157,7 +153,7 @@ fi
 
 # Если логин не введен, устанавливаем логин по умолчанию "admin"
 while true; do
-  echo -e "${YELLOW}Введите логин (только латинские буквы и цифры), если пропустить шаг будет задан логин admin:${NC}"  
+  echo -e "${YELLOW}Введите логин для Adguard (только латинские буквы и цифры), если пропустить шаг будет задан логин admin:${NC}"  
   read username
   if [ -z "$username" ]; then
     username="admin"
@@ -172,7 +168,7 @@ done
 
 # Запрашиваем у пользователя пароль
 while true; do
-  echo -e "${YELLOW}Введите пароль (если нажать Enter, пароль будет задан по умолчанию admin):${NC}"  
+  echo -e "${YELLOW}Введите пароль для Adguard (если нажать Enter, пароль будет задан по умолчанию admin):${NC}"  
   read password
   if [ -z "$password" ]; then
     password="admin"
