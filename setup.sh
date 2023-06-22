@@ -17,8 +17,8 @@ apt install sudo -y
 printf "\e[42mSUDO успешно установлен.\e[0m\n"
 
 # Клонирование репозитория
-#printf "\e[42mКлонирование репозитория...\e[0m\n"
-#git clone https://github.com/Deniom3/AdgWGDash.gittemp
+printf "\e[42mКлонирование репозитория...\e[0m\n"
+git clone https://github.com/Deniom3/AdgWGDash.gittemp
 
 if [ ! -d "AdgWGDash" ]; then
   mkdir AdgWGDash
