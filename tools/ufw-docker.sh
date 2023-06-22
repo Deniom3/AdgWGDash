@@ -16,13 +16,12 @@ fi
 echo "UFW установлен. Продолжаем работу..."
 
 # Проверяем наличие клиентов в файле ~/ad-wireguard/wg0.conf
-if grep -q "^\[Peer\]" ~/dwg-ui/wg0.conf; then
-  printf "${GREEN}В файле ~/dwg-ui/wg0.conf есть клиенты. Можно продолжать работу.${NC}\n"
+if grep -q "^\[Peer\]" ~/AdgWGDash/wgdash/wg0.conf; then
+  printf "${GREEN}В файле ~/AdgWGDash/wgdash/wg0.conf есть клиенты. Можно продолжать работу.${NC}\n"
 else
-  printf "${BG_RED}В файле ~/dwg-ui/wg0.conf нет клиентов. Нельзя продолжать работу.${NC}\n"
+  printf "${BG_RED}В файле ~/AdgWGDash/wgdash/wg0.conf нет клиентов. Нельзя продолжать работу.${NC}\n"
   printf "${BG_RED}Если бы вы сейчас установили ufw-docker, вы не смогли бы подключиться к WireGuard!${NC}\n"
   printf "${BG_RED}Создайте Peer'a и повторите заново!${NC}\n"
-  printf "${BG_RED}Если скрипт отработал не правильно, напишите мне на форуме: http://openode.ru${NC}\n"
   exit
 fi
   
@@ -36,8 +35,8 @@ sudo chmod +x /usr/local/bin/ufw-docker
 # Устанавливаем ufw-docker
 ufw-docker install
   printf "${GREEN}Ставим ufw-docker${NC}\n"
-# Разрешаем трафик на порт 10086 для сети 10.10.9.0/24
-sudo ufw route allow proto tcp from 10.10.9.0/24 to any port 10086
+# Разрешаем трафик на порт 10086 для сети 10.0.0.0/24
+sudo ufw route allow proto tcp from 10.0.0.0/24 to any port 10086
   printf "${GREEN}Разрешаем трафик на порт 51821 только для внутренней сети докера${NC}\n"
 # Отключаем ufw
 sudo ufw disable
@@ -45,8 +44,8 @@ sudo ufw disable
 # Включаем ufw и пропускаем все запросы подтверждения
 sudo ufw --force enable
 
-  printf "${GREEN}Включили....${NC}\n"
-  printf "${YELLOW}***********************${NC}\n"
-    printf "${RED}Теперь веб-интерфейс будет доступен только по адресу (ТОЛЬКО ПРИ ПОДКЛЮЧЕНИИ ЧЕРЕЗ WIREGUARD!):${NC}\n"
-      printf "${BLUE}http://10.2.0.3:10086${NC}\n"
-        printf "${YELLOW}***********************${NC}\n"
+printf "${GREEN}Включили....${NC}\n"
+printf "${YELLOW}***********************${NC}\n"
+printf "${RED}Теперь веб-интерфейс будет доступен только по адресу (ТОЛЬКО ПРИ ПОДКЛЮЧЕНИИ ЧЕРЕЗ WIREGUARD!):${NC}\n"
+printf "${BLUE}http://10.2.0.3:10086${NC}\n"
+printf "${YELLOW}***********************${NC}\n"
