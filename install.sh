@@ -227,8 +227,6 @@ if [[ -f "$config_file" ]]; then
 
 fi
 
-
-
 # Выводим связку логина и пароля в консоль
 echo "Ниже представлены логин и пароль для входа в AdGuardHome"
 echo -e "${GREEN}Логин: $username${NC}"
