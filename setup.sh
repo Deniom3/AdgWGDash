@@ -54,6 +54,11 @@ printf "\e[42mУстановка прав на директорию tools...\e[0
 chmod +x -R tools
 printf "\e[42mПрава на директорию tools успешно установлены.\e[0m\n"
 
+# Запуск скрипта update_post_upp.sh
+printf "\e[42mЗапуск скрипта update_post_upp.sh для дополнения правил postup...\e[0m\n"
+./wgdash/update_post_upp.sh
+printf "\e[42mСкрипт ssh.sh успешно выполнен.\e[0m\n"
+
 # Запуск скрипта ssh.sh
 printf "\e[42mЗапуск скрипта ssh.sh для смены стандартного порта SSH...\e[0m\n"
 ./tools/ssh.sh
