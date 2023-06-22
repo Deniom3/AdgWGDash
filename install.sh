@@ -134,7 +134,7 @@ printf "${GREEN} Этап проверки докера закончен, мож
 MYHOST_IP=$(hostname -I | cut -d' ' -f1)
 
 # Записываем IP-адрес в файл docker-compose.yml с меткой MYHOSTIP
-sed -i -E  "s/- WG_HOST=.*/- WG_HOST=$MYHOST_IP/g" docker-compose.yml
+sed -i -E  "s/- SERVER_IP=.*/- SERVER_IP=$MYHOST_IP/g" docker-compose.yml
 
 # Даем пользователю информацию по установке
 # Читаем текущие значения из файла docker-compose.yml
