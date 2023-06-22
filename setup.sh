@@ -18,7 +18,7 @@ printf "\e[42mSUDO успешно установлен.\e[0m\n"
 
 # Клонирование репозитория
 printf "\e[42mКлонирование репозитория...\e[0m\n"
-git clone https://github.com/Deniom3/AdgWGDash.gittemp
+git clone https://github.com/Deniom3/AdgWGDash.git temp
 
 if [ ! -d "AdgWGDash" ]; then
   mkdir AdgWGDash
